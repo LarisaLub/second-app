@@ -2,57 +2,46 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Counter from "./components/Counter";
-import Article from "./Article";
-import articles from "./constants/articles";
+import PokemonCard from "./PokemonCard";
+//import Article from "./Article";
+//import articles from "./constants/articles";
+
+import axios from "axios";
+
+export const getPocemons = async () => {
+    const data = await axios.get("https://pokeapi.co/api/v2/pokemon/?limit=50&offset=0");
+
+    const arrayofPokemons = data.data.results;
+
+    const final = arrayofPokemons.map(ele => {
+        return { ...ele, id: ele.url.slice(34, -1) };
+    });
+    return final;
+};
 
 class App extends Component {
     state = {
-        gameIndices: []
+        gameIndices: [],
+        images: {},
+        pokemons: []
     };
-    componentWillMount() {
-        this.getPocemon();
+
+    componentDidMount() {
+        getPocemons().then(data => this.setState({ pokemons: data }));
     }
-    getPocemon = () => {
-        fetch("https://pokeapi.co/api/v2/pokemon/1/")
-            .then(response => {
-                console.log("response", response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("data", data);
-                this.setState({
-                    gameIndices: data.game_indices
-                });
-            });
-    };
 
     render() {
+        console.log(this.state.pokemons);
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to Map</h1>
-                </header>
-                <div>
-                    {this.state.game_indices.map((item, index) => {
-                        return <p key={index}>{item.version.url}</p>;
-                    })}
-                </div>
-
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </p>
-
-                <div>
-                    {articles.map((article, index) => {
-                        return (
-                            <div key={index}>
-                                <Article article={article} foo="bar" />
-                                <Counter count={5} />
-                            </div>
-                        );
-                    })}
-                </div>
+                {this.state.pokemons.map(pokemon => (
+                    <PokemonCard
+                        name={pokemon.name}
+                        url={pokemon.url}
+                        key={pokemon.id}
+                        id={pokemon.id}
+                    />
+                ))}
             </div>
         );
     }

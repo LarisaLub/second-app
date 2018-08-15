@@ -1,21 +1,21 @@
 const articles = [
     {
-        title: "Математика",
-        autor: " Смирнов",
-        text: "математика основа для физики"
+        name: "Pokemon1",
+        url: "https://pokeapi.co/api/v2/pokemon/1/",
+        text: "Pokemon1"
     },
     {
-        title: "Физика",
-        autor: " Кузнецов",
-        text: "физика основа для жизни"
+        name: "Pokemon2",
+        url: "https://pokeapi.co/api/v2/pokemon/1/",
+        text: "Pokemon2"
     }
 ];
 
 const map = new Map();
-map.set("1", "bnoo");
-map.set("2", " klmkiом");
+map.set("1", "pokemon");
+map.set("2", "pokemon");
 
-map.set("3", "апротма");
+//map.set("3", "апротма");
 map.forEach((key, value, map) => console.log(key, value, map));
 
 export default articles;

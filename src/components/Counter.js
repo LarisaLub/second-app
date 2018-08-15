@@ -6,11 +6,6 @@ class Counter extends Component {
         this.state = { count: props.count };
         this.handleClick = this.handleClick.bind(this);
     }
-    handleClick() {
-        this.setState({
-            count: this.setState.count + 1
-        });
-    }
 
     render() {
         return (
